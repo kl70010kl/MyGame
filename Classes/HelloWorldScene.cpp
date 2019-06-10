@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
@@ -29,6 +29,7 @@ USING_NS_CC;
 
 Scene* HelloWorld::createScene()
 {
+
     return HelloWorld::create();
 }
 
@@ -44,6 +45,7 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
+
     if ( !Scene::init() )
     {
         return false;
@@ -100,27 +102,31 @@ bool HelloWorld::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
+	sprite = Sprite::create("HelloWorld.png");
+	//                        X       Y
+	sprite->setPosition(Vec2(1280.0f, 720.0f));
 
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'HelloWorld.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+	//sprite->setRotation(90.0f);
 
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }
+	//sprite->setVisible(true);
+
+	//颜色设定                 R     G     B
+	sprite->setColor(Color3B(0xff, 0xff, 0xff));
+	//不透明度设定
+	//sprite->setOpacity(128);
+	this->addChild(sprite);
+
+	this->scheduleUpdate();
+
+
     return true;
+
 }
 
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
+
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
 
@@ -129,5 +135,50 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
+
+}
+void HelloWorld::update(float delta)
+{
+	
+	//ここに更新処理を書く
+	Vec2 pos = sprite->getPosition();
+
+	
+	if (pos.x <= 0&&pos.y>0)
+	{
+		pos += Vec2(0.0f, -5.0f);
+	}
+	else if (pos.y <= 0&&pos.x<=1280)
+	{
+		pos += Vec2( 5.0f, 0.0f);
+	}
+	else if (pos.x>=1280&&pos.y<=720)
+	{
+		pos += Vec2(0.0f, 5.0f);
+	}
+	else 
+	{
+		pos += Vec2(-5.0f, 0.0f);
+	}
+    
+
+	sprite->setPosition(pos);
+
+
+
+
+	//float a = sprite->getOpacity();
+	//a -= 5.1f;
+	//sprite->setOpacity(a);
+
+	counter++;
+	float opacity=counter/300.0f*255.0f;
+	opacity = 255 - opacity;
+	if (opacity < 0)
+	{
+		opacity = 0;
+	}
+	
+	sprite->setOpacity(opacity);
 
 }

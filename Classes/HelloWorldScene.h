@@ -39,6 +39,12 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+
+	void update(float delta)override;
+
+	cocos2d::Sprite*sprite;
+	int counter = 0;
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__

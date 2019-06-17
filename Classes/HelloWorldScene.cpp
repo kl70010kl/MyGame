@@ -102,19 +102,35 @@ bool HelloWorld::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-	sprite = Sprite::create("HelloWorld.png");
+	sprite = Sprite::create("sample06.png");
+	sprite2 = Sprite::create("HelloWorld.png");
 	//                        X       Y
-	sprite->setPosition(Vec2(1280.0f, 720.0f));
+	sprite->setPosition(Vec2(visibleSize.width/2.0f, visibleSize.height/2.0f));
 
+	
+	//图片的左下变为基准点(0,0)  中心(0.5f,0.5f) 右上(1.0f,1.0f)
+	sprite->setAnchorPoint(Vec2(0.5f, 0.5f));
+
+	sprite->setScale(4.0f);
+
+	sprite->getTexture()->setAliasTexParameters();
 	//sprite->setRotation(90.0f);
 
 	//sprite->setVisible(true);
 
 	//颜色设定                 R     G     B
-	sprite->setColor(Color3B(0xff, 0xff, 0xff));
+	//sprite->setColor(Color3B(255, 0, 0));
+	//sprite->setColor(Color3B(0, 0, 255));
+	//左右镜像
+	//sprite->setFlippedX(true);
+	//                    画面的右上为基准点(0,0), 显示（100 100）的范围       
+	sprite->setTextureRect(Rect(0, 64, 32, 32));
 	//不透明度设定
 	//sprite->setOpacity(128);
+
+	//添加完图像之后要做添加处理
 	this->addChild(sprite);
+	//this->addChild(sprite2);
 
 	this->scheduleUpdate();
 
@@ -141,44 +157,58 @@ void HelloWorld::update(float delta)
 {
 	
 	//ここに更新処理を書く
-	Vec2 pos = sprite->getPosition();
-
 	
-	if (pos.x <= 0&&pos.y>0)
+	//Vec2 pos = sprite->getPosition();
+
+	//
+	//if (pos.x <= 0&&pos.y>0)
+	//{
+	//	pos += Vec2(0.0f, -5.0f);
+	//}
+	//else if (pos.y <= 0&&pos.x<=1280)
+	//{
+	//	pos += Vec2( 5.0f, 0.0f);
+	//}
+	//else if (pos.x>=1280&&pos.y<=720)
+	//{
+	//	pos += Vec2(0.0f, 5.0f);
+	//}
+	//else 
+	//{
+	//	pos += Vec2(-5.0f, 0.0f);
+	//}
+ //   
+
+	//sprite->setPosition(pos);
+
+
+
+
+	////float a = sprite->getOpacity();
+	////a -= 5.1f;
+	////sprite->setOpacity(a);
+
+	counter ++;
+	//sprite->setOpacity((180 - counter) / 180.0f*250.0f);
+	//sprite2->setOpacity(counter/180.0f*255.0f);
+    //sprite->setColor(Color3B((180-counter)/180.0f*255.0f, 0, counter/180.0f*255.0f));
+    //sprite->setColor(Color3B(0, 0, 255));
+	switch (counter/10 % 4)
 	{
-		pos += Vec2(0.0f, -5.0f);
+		case 0:
+		sprite->setTextureRect(Rect(0, 64, 32, 32));
+		break;
+		case 1:
+		sprite->setTextureRect(Rect(32, 64, 32, 32));
+		break;
+		case 2:
+		sprite->setTextureRect(Rect(64, 64, 32, 32));
+		break;
+		case 3:
+		sprite->setTextureRect(Rect(32, 64, 32, 32));
+		break;
 	}
-	else if (pos.y <= 0&&pos.x<=1280)
-	{
-		pos += Vec2( 5.0f, 0.0f);
-	}
-	else if (pos.x>=1280&&pos.y<=720)
-	{
-		pos += Vec2(0.0f, 5.0f);
-	}
-	else 
-	{
-		pos += Vec2(-5.0f, 0.0f);
-	}
+
     
-
-	sprite->setPosition(pos);
-
-
-
-
-	//float a = sprite->getOpacity();
-	//a -= 5.1f;
-	//sprite->setOpacity(a);
-
-	counter++;
-	float opacity=counter/300.0f*255.0f;
-	opacity = 255 - opacity;
-	if (opacity < 0)
-	{
-		opacity = 0;
-	}
-	
-	sprite->setOpacity(opacity);
 
 }
